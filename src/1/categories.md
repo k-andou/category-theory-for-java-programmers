@@ -37,4 +37,19 @@ $$
 ```java
 <T> T id(T x) { return x; }
 ```
-java8以降であれば`java UnaryOperator.identity() `として表すこともできる。
+java8以降であれば、Functon、UnaryOperatorにidentity()が定義されているので、
+```java 
+Function<T,T> id = Function.identity();
+UnaryOperator<T> id = UnaryOperator.identity();
+```
+として表すことできる。
+ 単位元の条件は、javaで疑似的に表現すると、次のようになる。
+```java
+Function<A,B> f;
+Function<A,A> id_A = Function.identity();
+Function<B,B> id_B = Function.identity();
+f.compose(id_A) == f
+id_B.compose(f) == f
+```
+ 恒等射idは、数字の0（零）と何もしないことを表すシンボルで、極めて役に立つものである。
+## プログラミングのエッセンスである合成
