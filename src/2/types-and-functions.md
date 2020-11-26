@@ -28,4 +28,4 @@ void fInt(int x) { return; }
 <T> void unit(T x) { return; }
 ```
  次に２つの要素を持つ集合である。javaではBooleanである。Booleanからの純粋関数はそのような集合の２つの値を取り出すが、一方はTrueと対応し、もう一方はFalseと対応する。
- Booleanへの関数は述語（Predicate）と呼ばれる。
+ Booleanへの関数は述語と呼ばれる。javaではCharacter.isDigitなどが述語に該当する。
