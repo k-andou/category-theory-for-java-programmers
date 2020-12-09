@@ -105,3 +105,35 @@ Pair<Boolean, String> isOdd(Integer n) {
  1. 結果のペアの最初の要素を取り出して、２番目の射に対応する装飾された関数に渡す。
  1. 最初の結果の２番目の要素（文字列）と２番目の結果の２番目の要素（文字列）を連結する。
  1. 最後の結果の最初の要素と連結した文字列を一緒にして新たなペアを作って戻す。
+ javaでこの合成を抽象化したいなら、ここでの圏の3つの対象に対応する3つの型による総称型を使う必要がある。ここで触れた規則に従う合成できる２つの装飾された関数を引数とし、3番目の関数を戻すような関数である。
+```java
+<A,B,C> Function<A, Writer<C>> compose(Function<A, Writer<B>> m1, Function<B, Writer<C>> m2) {
+  return x -> {
+    var p1 = m1(x);
+    var p2 = m2(p1.left);
+    return new Pair<>(p2.left, p1.right + p2.right);
+  };
+}
+```
+ここで以前に触れた例に戻り、toUpperとtoWordsの合成をこの新しいテンプレートを使って実装すると、次のようになる。
+```java
+Writer<String[]> process(String s) {
+  return compose<String, String, String[]>>(toUpper, toWords)(s);
+}
+```
+合成のテンプレートに型を渡すための無駄が多い。一般化されたラムダ関数を使うと総称型の指定を削減できる。
+```java
+const var compose = (m1, m2) -> {
+  return x -> {
+    var p1 = m1(x);
+    var p2 = m2(p1.left);
+    return new Pair<>(p2.left, p1.right p2.right);
+  }
+}
+```
+この新しい定義では、processの実装はもっとシンプルになる。
+```java
+Writer<String[]> process(String s){
+  return compose(toUpper, toWords)(s);
+}
+```
