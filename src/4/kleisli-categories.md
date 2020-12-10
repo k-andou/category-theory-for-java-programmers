@@ -111,7 +111,7 @@ Pair<Boolean, String> isOdd(Integer n) {
   return x -> {
     var p1 = m1(x);
     var p2 = m2(p1.left);
-    return new Pair<>(p2.left, p1.right + p2.right);
+    return new Writer(p2.left, p1.right + p2.right);
   };
 }
 ```
@@ -125,9 +125,9 @@ Writer<String[]> process(String s) {
 ```java
 const var compose = (m1, m2) -> {
   return x -> {
-    var p1 = m1(x);
-    var p2 = m2(p1.left);
-    return new Pair<>(p2.left, p1.right p2.right);
+    var p1 = m1.apply(x);
+    var p2 = m2.apply(p1.left);
+    return new Writer(p2.left, p1.right p2.right);
   }
 }
 ```
@@ -137,3 +137,15 @@ Writer<String[]> process(String s){
   return compose(toUpper, toWords)(s);
 }
 ```
+まだ終わっていない。新たな圏で合成を定義したが、恒等射はどうなる？正規な恒等射は存在しない。型`A`から型`A`へ戻す射で、次のような装飾された関数である。
+```java
+Writer<A> identity(A);
+```
+合成の観点で単位元のように振る舞わなければならない。先に定義した合成を見ると、恒等射は引数を変更しないでそのまま戻し、ログには空の文字列を与えなければならない。
+```java
+<A> Writer<A> identity(A x){
+  return new Writer(x, "");
+}
+```
+ここで定義した圏が本当に正当な圏であることが納得できるだろう。特に、合成の結合律を満たすことは自明である。各ペアの1番目の要素では正規の関数の合成であり、それは結合律が成り立つ。２番目の要素は連結であり、連結もまた結合律が成り立つ。
+ 文字列に限定せず、任意のモノイドに対して容易にこのような一般化が出来ることに気づいたかもしれない。`compose`の中は`mappend`、`identity`の中は`mempty`を使える（`+`と`""`を置き換える）。文字列のログを残すことに限定する必要もない。良いライブラリであれば、ライブラリの働きをするのに最低限の制約だけ課せばよい。ここでは、ログライブラリの要求はログがモノイドの性質を持つことである。
