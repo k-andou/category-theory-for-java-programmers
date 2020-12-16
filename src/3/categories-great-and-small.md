@@ -31,7 +31,25 @@ a+0=a
 $$
 だからである。
 2番目の式は加算が交換可能（$a+b=b+a$）なため、冗長であるが、交換可能性はモノイドの一部ではない。例えば、文字列の連結は交換可能ではないが、モノイドを形成する。文字列連結に対する単位元は空文字であり、文字列のどちら側から連結しても変わらない。
-　javaでモノイドを定義すると次のように定義できる。
+　java（java8以降）でモノイドを定義することができる。単位元を`mempty`、二項演算を`mappend`を持つ。
+```java
+class Monoid<M> {
+  M mempty;
+  Function<M,Function<M,M>> mappend;
+  Monoid(M mempty, Function<M,Function<M,M>> mappend) {
+    this.mempty = mempty;
+    this.mappend = mappend;
+  }
+}
+```
+２つの引数の関数に対して、`Function<M,Function<M,M>>`と言うシグネチャは最初は奇異に見えるかもしれないが、カリー化について触れた後では納得してもらえるだろう。
+　`mempty`と`mappend`の実装を与えることで`String`についてモノイドを宣言することができる。
+```java
+var m = new Monoid<String>("", s1 -> s2 -> s1 + s2);
+```
+`s1 -> s2 -> s1 + s2`の複数の矢印を持つシグネチャは2通りに解釈できる。一つ目は複数の引数を持ち、最も右の値を返す関数、二つ目は最初の引数（最も左の引数）に対して関数を返すような関数の２通りである。後者の解釈は括弧を追加することによって強調することができる。`s1 -> (s2 -> s1 + s2))`(矢印は右結合なので、括弧は冗長である。)
+
+　(java7以前の)javaでモノイドを定義すると次のように定義することもできる。
 ```java
 interface Monoid<M> {
   M mempty();
