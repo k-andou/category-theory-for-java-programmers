@@ -13,12 +13,12 @@ Boolean negate(Boolean b) {
 　幸いにも、このような関数を純粋関数にすることができる。引数と戻り値で明示的にログを通過させればよい。文字列の引数を追加して、更新されたログを含む文字列とペアにして戻せばよい。
 ```java
 class Pair<A, B> {
-  private final A left;
-  private final B right;
+  final A first;
+  final B second;
 
-  Pair(A left, B right) {
-    this.left = left;
-    this.right = right;
+  Pair(A first, B second) {
+    this.first = first;
+    this.second = second;
   }
 }
 
@@ -71,8 +71,8 @@ Writer<String[]> toWords(String s) {
 ```java
 Writer<String[]> process(Stirng s) {
   var p1 = toUpper(s);
-  var p2 = toWords(p1.left);
-  return new Writer(p2.left, p1.right + p2.right);
+  var p2 = toWords(p1.first);
+  return new Writer(p2.first, p1.second + p2.second);
 }
 ```
 我々が達成したいゴールは次のようなものである。ログの集約は個々の関数の関心事ではない。これらはそれぞれのメッセージを生成し、その後このメッセージはより大きなログに外部で連結される。
@@ -96,8 +96,8 @@ Pair<Boolean, String> negate(Boolean b){
 ```java
 Pair<Boolean, String> isOdd(Integer n) {
   Pair<Boolean, String> p1 = isEven(n);
-  Pair<Boolean, String> p2 = negate(p1.left);
-  return new Pair<>(p2.left, p1.right + p2.right);
+  Pair<Boolean, String> p2 = negate(p1.first);
+  return new Pair<>(p2.first, p1.second + p2.second);
 }
 ```
 ここで行った圏論で２つの射の合成の手順は次のようなもので構成されている。
@@ -109,9 +109,9 @@ Pair<Boolean, String> isOdd(Integer n) {
 ```java
 <A,B,C> Function<A, Writer<C>> compose(Function<A, Writer<B>> m1, Function<B, Writer<C>> m2) {
   return x -> {
-    var p1 = m1(x);
-    var p2 = m2(p1.left);
-    return new Writer(p2.left, p1.right + p2.right);
+    var p1 = m1.apply(x);
+    var p2 = m2.apply(p1.first);
+    return new Writer<C>(p2.first, p1.second + p2.second);
   };
 }
 ```
@@ -126,8 +126,8 @@ Writer<String[]> process(String s) {
 const var compose = (m1, m2) -> {
   return x -> {
     var p1 = m1.apply(x);
-    var p2 = m2.apply(p1.left);
-    return new Writer(p2.left, p1.right + p2.right);
+    var p2 = m2.apply(p1.first);
+    return new Writer<C>(p2.first, p1.second + p2.second);
   }
 }
 ```
