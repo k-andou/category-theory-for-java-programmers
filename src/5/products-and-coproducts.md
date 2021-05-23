@@ -57,6 +57,7 @@ $$
 g \circ f = id
 $$
 始対象(終対象)は同型の違いを除いて一意であると述べたが、任意の二つの始対象(終対象)は同型と言う意味であった。実際に簡単なので見ていこう。二つの始対象$i_1$と$i_2$があると仮定しよう。$i_1$は始対象なので、$i_1$から$i_2$への一意な射$f$が存在する。同様に、$i_2$は始対象なので、$i_2$から$i_1$への一意な射$g$が存在する。これらの射の合成はどうなるだろうか？  
+<figure class="figure-image figure-image-fotolife" title="この図のすべての射は一意"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/knight_rose/20210516/20210516232830.png" width="30%"><figcaption>この図のすべての射は一意</figcaption></figure>
 　合成$g \circ f$は$i_1$から$i_1$への射でなければならない。しかし、$i_1$は始対象であり、そのため$i_1$から$i_1$への射は唯一つだけ存在する。圏を扱っているので、$i_1$から$i_1$へ恒等射が存在することが分かっており、唯一つであるため、これはその合成と一致する。従って、$g \circ f$は恒等射と等しい。同様に、$i_2$から$i_2$に戻っていく射は唯一つであるため、$f \circ g$も恒等射に等しい。以上によって、$f$と$g$はお互いに逆射であることが証明された。従って、任意の二つの始対象は同型である。  
 　この証明では始対象からそれ自身はの射の一意性を使った。それなしでは「同型の違いを除いて」の部分を証明することはできない。しかし、なぜ$f$と$g$の一意性が必要なのであろうか？始対象は同型の違いを除いて一意であるだけでなく、一意な同型射の違いを除いて一意であるからである。原則としては二つの対象の間に一つ以上の射が存在するが、ここでは当てはまらない。この「一意な同型射の違いを除いて一意であること」はすべての普遍的構成の重要な性質である。  
 
@@ -97,7 +98,9 @@ $$
 $$
 q:C \rightarrow B
 $$
+<figure class="figure-image figure-image-fotolife" title=""><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/knight_rose/20210516/20210516234216.png" width="15%"></figure>
 このパターンを満たす$C$はすべて積の候補と考えることができる。そのようなものが沢山存在するかもしれない。  
+<figure class="figure-image figure-image-fotolife" title=""><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/knight_rose/20210516/20210516234827.png" width="20%"></figure>
 　例えば、構成として、`Integer`と`Boolean`を取り上げて、これらの積候補をサンプリングしてみよう。  
 　一つ目の候補を挙げる。`Integer`である。`Integer`を`Integer`と`Boolean`の積の候補として考えることができるのであろうか？実際にできる。次のような射影が存在する。  
 ```java
@@ -131,7 +134,10 @@ $$
 q' = q \circ m
 $$
 これらの等式を別の見方をすると、$ m $が$p'$ と$q'$ を分解している。これらの等式を自然数で、合成を乗算と見なすと、$ m $は$p'$ と$q'$ の公約数である。  
-　直観を働かせるため、二つの標準的な射影、$fst$と$snd$を持つペア $(Integer, Boolean)$ が、既に挙げた二つの候補より真に「より良い」ことを示そう。$(Integer,Boolean)$ を`Pair<Integer,Boolean>`と見なして、最初の候補に対する写像$ m $は次のようになる。  
+<figure class="figure-image figure-image-fotolife" title=""><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/knight_rose/20210523/20210523214512.png" width="20%"></figure>
+　直観を働かせるため、二つの標準的な射影、$fst$と$snd$を持つペア $(Integer, Boolean)$ が、既に挙げた二つの候補より真に「より良い」ことを示そう。
+<figure class="figure-image figure-image-fotolife" title=""><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/k/knight_rose/20210523/20210523214720.png" width="20%"></figure>
+　$(Integer,Boolean)$ を`Pair<Integer,Boolean>`と見なして、最初の候補に対する写像$ m $は次のようになる。  
 ```java
 Function<Integer,Pair<Integer,Boolean>> m = x -> new Pair<>(x, true);
 ```
